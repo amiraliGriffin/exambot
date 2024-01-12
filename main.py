@@ -1,3 +1,5 @@
+#author : AmirAli TAJ
+
 from pyrogram import Client
 
 plug = dict(root="plugins")
