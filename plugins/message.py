@@ -73,9 +73,6 @@ def admin(client,message):
     ]
     )
     file_put_contents(f"BM/{CHI}.txt","off")
-    client.set_bot_commands([
-        cmd("help","how to work with bot")
-    ])
     client.send_message(CHI,"لطفا گزینه مورد نظر انتخاب کنید",reply_markup=kb)
     raise stop
 @Client.on_message(filters.regex("help"))
