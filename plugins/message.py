@@ -79,7 +79,7 @@ def admin(client,message):
 def hel(client,message):
     CHI = message.chat.id
     #-----
-    help = "🔹 del*\n\nدستور حذف فایل آزمون یا سوال به ترتیب در دو بخش difine exam و compose exam\n\n🔹 which\n\nدستور اطلاع از اینکه کدام فایل آزمون فعال است در بخش compose exam\n\n🔹 ex*\n\nدستور فعالسازی فایل آزمون مورد نظر در بخش compose exam\n\n🔹 preview\n\nدستور دیدن تمامی سوالات به صورت یکجا در قسمت compose exam\n\n🔹 exit\n\nدستور خروج از workspace قسمت compose exam\n\nدستور حذف فایل آپلود شده در قسمت upload"
+    help = "🔹 del*\n\nدستور حذف فایل آزمون یا سوال به ترتیب در دو بخش difine exam و compose exam\n\n🔹 which\n\nدستور اطلاع از اینکه کدام فایل آزمون فعال است در بخش compose exam\n\n🔹 ex*\n\nدستور فعالسازی فایل آزمون مورد نظر در بخش compose exam\n\n🔹 preview\n\nدستور دیدن تمامی سوالات به صورت یکجا در قسمت compose exam\n\n🔹 exit\n\nدستور خروج از workspace قسمت compose exam\n\n🔹off\n\nدستور حذف فایل آپلود شده در قسمت upload"
     client.send_message(CHI,help)
     file_put_contents(f"BM/{CHI}.txt","off")
     raise stop
