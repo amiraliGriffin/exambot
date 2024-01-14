@@ -78,7 +78,7 @@ def admin(client,message):
     client.send_message(CHI,"لطفا گزینه مورد نظر انتخاب کنید",reply_markup=kb)
     raise stop
 @Client.on_message(filters.command("help"))
-def admin(client,message):
+def hel(client,message):
     CHI = message.chat.id
     #-----
     help = "🔹 del*\nدستور حذف فایل آزمون یا سوال به ترتیب در دو بخش difine exam و compose exam\n🔹 which\nدستور اطلاع از اینکه کدام فایل آزمون فعال است در بخش compose exam\n🔹 ex*\nدستور فعالسازی فایل آزمون مورد نظر در بخش compose exam\n🔹 preview\nدستور دیدن تمامی سوالات به صورت یکجا در قسمت compose exam\n🔹 exit\nدستور خروج از workspace قسمت compose exam\nدستور حذف فایل آپلود شده در قسمت upload"
