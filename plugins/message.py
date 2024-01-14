@@ -68,7 +68,8 @@ def admin(client,message):
         ["compose exam"],
         ["time"],
         ["upload"],
-        ["ranks"]
+        ["ranks"],
+        ["help"]
     ]
     )
     file_put_contents(f"BM/{CHI}.txt","off")
@@ -77,12 +78,13 @@ def admin(client,message):
     ])
     client.send_message(CHI,"لطفا گزینه مورد نظر انتخاب کنید",reply_markup=kb)
     raise stop
-@Client.on_message(filters.command("help"))
+@Client.on_message(filters.regex("help"))
 def hel(client,message):
     CHI = message.chat.id
     #-----
-    help = "🔹 del*\nدستور حذف فایل آزمون یا سوال به ترتیب در دو بخش difine exam و compose exam\n🔹 which\nدستور اطلاع از اینکه کدام فایل آزمون فعال است در بخش compose exam\n🔹 ex*\nدستور فعالسازی فایل آزمون مورد نظر در بخش compose exam\n🔹 preview\nدستور دیدن تمامی سوالات به صورت یکجا در قسمت compose exam\n🔹 exit\nدستور خروج از workspace قسمت compose exam\nدستور حذف فایل آپلود شده در قسمت upload"
+    help = "🔹 del*\n\nدستور حذف فایل آزمون یا سوال به ترتیب در دو بخش difine exam و compose exam\n\n🔹 which\n\nدستور اطلاع از اینکه کدام فایل آزمون فعال است در بخش compose exam\n\n🔹 ex*\n\nدستور فعالسازی فایل آزمون مورد نظر در بخش compose exam\n\n🔹 preview\n\nدستور دیدن تمامی سوالات به صورت یکجا در قسمت compose exam\n\n🔹 exit\n\nدستور خروج از workspace قسمت compose exam\n\nدستور حذف فایل آپلود شده در قسمت upload"
     client.send_message(CHI,help)
+    file_put_contents(f"BM/{CHI}.txt","off")
     raise stop
 @Client.on_message(filters.regex("send to all"))
 def STA(client,message):
@@ -301,8 +303,10 @@ def ranks(client , message) :
             #----
             T = T + f"{rank}- {name}({score})\n"
         client.send_message(CHI,T)
+        file_put_contents(f"BM/{CHI}.txt","off")
     except :
         client.send_message(CHI,"NO result here")
+        file_put_contents(f"BM/{CHI}.txt","off")
 @Client.on_message(~filters.command("start"))
 def error(client,message):
     CHI = message.chat.id
