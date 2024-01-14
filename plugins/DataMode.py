@@ -118,7 +118,7 @@ def greet(client,message):
         file_put_contents(f"BM/{CHI}.txt","off")
         #-----
     raise stop
-@Client.on_message(BotMode("define exam") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks"))
+@Client.on_message(BotMode("define exam") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks") & ~filters.command("help"))
 def defineExam(client , message) :
     text = message.text
     CHI  = message.chat.id
@@ -139,7 +139,7 @@ def defineExam(client , message) :
         except :
             client.send_message(CHI,CD["no_file"])
             file_put_contents(f"BM/{CHI}.txt","off")
-@Client.on_message(BotMode("compose exam") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks"))
+@Client.on_message(BotMode("compose exam") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks") & ~filters.command("help"))
 def composeExam(client , message) :   # to be edited
     text = message.text
     CHI  = message.chat.id
@@ -148,6 +148,11 @@ def composeExam(client , message) :   # to be edited
     #-----
     if tspl[0] != "del" and tspl[0] != "ex" and tspl[0] != "preview" and tspl[0] != "which" and tspl[0] != "exit":
         try :
+            #----
+            chspc = tspl[0].split(" ")
+            if "" in chspc :
+                raise Exception("no space at the end of question")
+            #----
             for ans in tspl :
                 if ans.find("/") != -1 :
                     ind = tspl.index(ans)
@@ -221,7 +226,7 @@ def composeExam(client , message) :   # to be edited
         elif tspl[0] == "exit" :
             file_put_contents(f"BM/{CHI}.txt" , "off")
             client.send_message(CHI,"workspace deactivated")
-@Client.on_message(BotMode("time") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks"))
+@Client.on_message(BotMode("time") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks") & ~filters.command("help"))
 def timeexam(client , message):
     text = message.text
     CHI  = message.chat.id
@@ -250,7 +255,7 @@ def timeexam(client , message):
         client.send_message(CHI,"time has set on exam")
     except :
         client.send_message(CHI,"please do write format")
-@Client.on_message(BotMode("upload") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks"))
+@Client.on_message(BotMode("upload") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request")& ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks") & ~filters.command("help"))
 def uploadexam(client , message) :
     text = message.text
     CHI  = message.chat.id
@@ -262,7 +267,7 @@ def uploadexam(client , message) :
         client.send_message(CHI,"exam has uploaded")
     else :
         client.send_message(CHI,"no such exam")
-#@Client.on_message(BotMode("STA") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request"))
+@Client.on_message(BotMode("STA") & ~filters.command("start") & ~filters.regex("ADMIN_PRIVATE_PANEL") & ~filters.regex("send to all") & ~filters.regex("real time request") &  ~filters.regex("define exam")& ~filters.regex("compose exam")& ~filters.regex("time")& ~filters.regex("upload")& ~filters.regex("ranks") & ~filters.command("help"))
 def lets_send(client,message):
     CHI     = str(message.chat.id)
     if hasattr(message.video,'file_id') :

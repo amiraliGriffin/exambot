@@ -6,8 +6,8 @@ from pyrogram.types import InlineKeyboardButton as inb
 from pyrogram.types import BotCommand as cmd
 from pyrogram.types import ReplyKeyboardRemove as Kremover
 import json
-import time as t
-import datetime
+import datetime as dt
+import pytz as Tzone
 #----------
 CD = {
     "err_check_num" : "❌لطفا از اعداد در نام خود استفاده نکنید",
@@ -72,7 +72,17 @@ def admin(client,message):
     ]
     )
     file_put_contents(f"BM/{CHI}.txt","off")
+    client.set_bot_commands([
+        cmd("help","how to work with bot")
+    ])
     client.send_message(CHI,"لطفا گزینه مورد نظر انتخاب کنید",reply_markup=kb)
+    raise stop
+@Client.on_message(filters.command("help"))
+def admin(client,message):
+    CHI = message.chat.id
+    #-----
+    help = "🔹 del*\nدستور حذف فایل آزمون یا سوال به ترتیب در دو بخش difine exam و compose exam\n🔹 which\nدستور اطلاع از اینکه کدام فایل آزمون فعال است در بخش compose exam\n🔹 ex*\nدستور فعالسازی فایل آزمون مورد نظر در بخش compose exam\n🔹 preview\nدستور دیدن تمامی سوالات به صورت یکجا در قسمت compose exam\n🔹 exit\nدستور خروج از workspace قسمت compose exam\nدستور حذف فایل آپلود شده در قسمت upload"
+    client.send_message(CHI,help)
     raise stop
 @Client.on_message(filters.regex("send to all"))
 def STA(client,message):
@@ -122,9 +132,14 @@ def azmoon(client , message) :
     text = message.text
     CHI  = message.chat.id
     #------
-    etime = Jread("exam controls/Time&exam.json")
-    stime = etime[0]
-    atime = etime[2]
+    etime    = Jread("exam controls/Time&exam.json")
+    stime    = etime[0]
+    atime    = etime[2]
+    #----
+    tizone   = Tzone.timezone("Asia/Tehran")
+    currtime = dt.datetime.now(tizone)
+    currtime = currtime.strftime("%H:%M")
+    #----
     examtype     = Jread("exam controls/Tarexam.json")
     examtype     = examtype[0]
     try : 
@@ -136,7 +151,7 @@ def azmoon(client , message) :
                 client.send_message(CHI,"یکبار بیشتر نمیشه آزمون بدین ☕️")
                 break
         else :
-            if stime <= t.strftime("%H:%M") <= atime and examtype != "off":
+            if stime <= currtime <= atime and examtype != "off":
                 examtype  = Jread("exam controls/Tarexam.json")
                 examtype  = examtype[0]
                 questions = Jread(f"exam sheets/{examtype}.json")
@@ -190,12 +205,12 @@ def azmoon(client , message) :
                 if examtype == "off" or stime == "1" :
                     client.send_message(CHI,"آزمونی فعال نیست")
                 else :
-                    if t.strftime("%H:%M") < stime :
+                    if currtime < stime :
                         client.send_message(CHI,"آزمون طراحی و فعال شده‌ها ولی زود اومدی")
                     else : 
                         client.send_message(CHI,"فرصت شرکت در آزمون به اتمام رسیده ☕️")
     except :
-        if stime <= t.strftime("%H:%M") <= atime and examtype != "off":
+        if stime <= currtime <= atime and examtype != "off":
                 examtype  = Jread("exam controls/Tarexam.json")
                 examtype  = examtype[0]
                 questions = Jread(f"exam sheets/{examtype}.json")
@@ -249,7 +264,7 @@ def azmoon(client , message) :
             if examtype == "off" or stime == "1":
                 client.send_message(CHI,"آزمونی فعال نیست")
             else :
-                if t.strftime("%H:%M") < stime :
+                if currtime < stime :
                     client.send_message(CHI,"آزمون طراحی و فعال شده‌ها ولی زود اومدی")
                 else : 
                     client.send_message(CHI,"فرصت شرکت در آزمون به اتمام رسیده ☕️")
