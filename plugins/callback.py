@@ -8,7 +8,8 @@ from pyrogram.types import KeyboardButton as keyb
 from pyrogram.types import ReplyKeyboardRemove as Kremover
 import os
 import json
-import datetime
+import datetime as dt
+import pytz as Tzone
 import time as t
 #-----------
 CD = {
@@ -244,7 +245,8 @@ def uplque(client , query) :
                 inb(ans4 , f"{cldx[1]}_4")   # fixing callback
             ],
             [
-                inb("<<<" , f"previous_{Q_num - 1}"),   
+                inb("<<<" , f"previous_{Q_num - 1}"),
+                inb(">>>" , f"next_{Q_num + 1}") 
             ]
         ])
             client.edit_message_text(CHI , MID , Q_show , reply_markup=keyb)
@@ -263,8 +265,8 @@ def uplque(client , query) :
                 inb(ans4 , f"{cldx[1]}_4")   # fixing callback
             ],
             [
-                inb(">>>" , f"next_{Q_num + 1}"),
-                inb("<<<" , f"previous_{Q_num - 1}")
+                inb("<<<" , f"previous_{Q_num - 1}"),
+                inb(">>>" , f"next_{Q_num + 1}") 
             ]
         ])
             client.edit_message_text(CHI , MID , Q_show , reply_markup=keyb)
@@ -406,7 +408,12 @@ def ans(client , query) :
     #------
     examtime = Jread("exam controls/Time&exam.json")
     ftime    = examtime[1]
-    if t.strftime("%H:%M") <= ftime :
+    #----
+    tizone   = Tzone.timezone("Asia/Tehran")
+    currtime = dt.datetime.now(tizone)
+    currtime = currtime.strftime("%H:%M")
+    #----
+    if currtime <= ftime :
         try :
             tarexam = Jread("exam controls/Tarexam.json")
             tarexam = tarexam[0]
